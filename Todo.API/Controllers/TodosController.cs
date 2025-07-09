@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Application.Features.Todos.Commands.CreateTodo;
-using Todo.Application.Features.Todos.Queries.GetAllTodos;
 using Todo.Application.Features.Todos.Commands.UpdateTodo;
+using Todo.Application.Features.Todos.Queries.GetAllTodos;
+using Todo.Application.Features.Todos.Queries.GetTodoById;
 
 namespace Todo.API.Controllers
 {
@@ -41,11 +42,12 @@ namespace Todo.API.Controllers
             return Ok();
         }
 
-        // Bu placeholder, sonradan GetById endpointi geldiğinde çalışır hale gelecek
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            return Ok(); // Geçici
+            var query = new GetTodoByIdQuery { Id = id };
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
     }
 }
