@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Todo.Application.Features.Todos.Commands.CreateTodo;
 using Todo.Application.Features.Todos.Queries.GetAllTodos;
+using Todo.Application.Features.Todos.Commands.UpdateTodo;
 
 namespace Todo.API.Controllers
 {
@@ -28,6 +29,16 @@ namespace Todo.API.Controllers
         {
             var result = await _mediator.Send(query);
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateTodoCommand command)
+        {
+            if (id != command.Id)
+                return BadRequest("ID in URL and body do not match.");
+
+            await _mediator.Send(command);
+            return Ok();
         }
 
         // Bu placeholder, sonradan GetById endpointi geldiğinde çalışır hale gelecek
