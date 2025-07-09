@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Todo.Application.Interfaces;
+using Todo.Domain.Common;
 using Todo.Domain.Entities;
 
 namespace Todo.Infrastructure.Persistence
@@ -16,7 +17,7 @@ namespace Todo.Infrastructure.Persistence
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            foreach (var entry in ChangeTracker.Entries<TodoItem>())
+            foreach (var entry in ChangeTracker.Entries<BaseAuditableEntity>())
             {
                 if (entry.State == EntityState.Added)
                 {

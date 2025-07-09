@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Todo.Domain.Common;
 
 namespace Todo.Domain.Entities
 {
-    public class TodoItem
+    public class TodoItem : BaseAuditableEntity
     {
         public int Id { get; set; }
 
@@ -17,9 +18,5 @@ namespace Todo.Domain.Entities
         public bool IsCompleted { get; set; } = false;
 
         public DateTime? DueDate { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }
