@@ -7,6 +7,16 @@ using Todo.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Application & Infrastructure katmanlarýný ekle
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -25,6 +35,7 @@ var app = builder.Build();
 // middleware tanýmlarýný buraya al
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseCors("AllowAll");
 app.UseSwagger();
 app.UseSwaggerUI();
 
