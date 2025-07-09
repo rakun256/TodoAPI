@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Application.Features.Todos.Commands.CreateTodo;
+using Todo.Application.Features.Todos.Commands.PatchTodo;
 using Todo.Application.Features.Todos.Commands.UpdateTodo;
 using Todo.Application.Features.Todos.Queries.GetAllTodos;
 using Todo.Application.Features.Todos.Queries.GetTodoById;
@@ -49,5 +50,16 @@ namespace Todo.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] PatchTodoCommand command)
+        {
+            if (id != command.Id)
+                return BadRequest("ID mismatch.");
+
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
     }
 }
