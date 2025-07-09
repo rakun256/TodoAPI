@@ -1,8 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
 using Todo.API.Middlewares;
 using Todo.Application;
 using Todo.Application.Features.Todos.Commands.CreateTodo;
@@ -18,13 +15,15 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(CreateTodoCommandValidator).Assembly);
 
 builder.Services.AddControllers();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// middleware tanýmlarýný buraya al
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();
