@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Application.Features.Todos.Commands.CreateTodo;
+using Todo.Application.Features.Todos.Queries.GetAllTodos;
 
 namespace Todo.API.Controllers
 {
@@ -20,6 +21,13 @@ namespace Todo.API.Controllers
         {
             var id = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id }, command);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] GetAllTodosQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         // Bu placeholder, sonradan GetById endpointi geldiğinde çalışır hale gelecek
